@@ -1,0 +1,144 @@
+import QtQuick 2.15
+
+Item {
+
+    // Each settings needs a type and value
+    // The rendering and options available depend on
+    // the type of setting
+    // id: Matches to the relevant themeSettings value
+    // types:
+    //   - list
+    //   - bool
+    //   - range (min, max, step)
+    property var settingsModel: [
+        {
+            "name": "General",
+            "settings": [
+                // {
+                //     "name": "Language",
+                //     "id": "language",
+                //     "description": "Change the theme's language",
+                //     "type": "list",
+                //     "default": "en",
+                //     "options": ["en"],
+                // },
+                {
+                    "name": "Last Played Day Range",
+                    "id": "lastPlayedDays",
+                    "description": "The max number of days to show games on the last played menu",
+                    "type": "list",
+                    "default": 30,
+                    "options": [7,14,30,60,90,180,365]
+                },
+                {
+                    "name": "Show All Games",
+                    "id": "collectionAllGames",
+                    "description": "Show All games in the games list",
+                    "type": "bool",
+                    "default": "Enable"
+                },
+                {
+                    "name": "Collection Short Names",
+                    "id": "collectionShortNames",
+                    "description": "Use collection short names",
+                    "type": "bool",
+                    "default": "Disable"
+                },
+            ]
+        },
+        {
+            "name": "Layout",
+            "settings": [
+                {
+                    "name": "Main List - Rows",
+                    "id": "itemListRows",
+                    "description": "The number of rows to show on the game/settings lists",
+                    "type": "range",
+                    "default": 9,
+                    "min": 4,
+                    "max": 12,
+                    "step": 1,
+                },
+                {
+                    "name": "Main List - Width",
+                    "id": "itemListWidth",
+                    "description": "The percentage of width of the game/settings lists.",
+                    "type": "range",
+                    "default": 40,
+                    "min": 35,
+                    "max": 65,
+                    "step": 5,
+                },
+                {
+                    "name": "Sub-Menu - Columns",
+                    "id": "subMenuColumns",
+                    "description": "The number of sub menu items to show on the screen.",
+                    "type": "range",
+                    "default": 4,
+                    "min": 3,
+                    "max": 8,
+                    "step": 1,
+                },
+                {
+                    "name": "Sub-Menu - Width",
+                    "id": "subMenuWidth",
+                    "description": "The percentage of width of the screen to define the width of the Sub-Menu",
+                    "type": "range",
+                    "default": 55,
+                    "min": 40,
+                    "max": 90,
+                    "step": 5,
+                },
+                {
+                    "name": "Sub-Menu - Height",
+                    "id": "subMenuHeight",
+                    "description": "The percentage of height of the screen to define the height of the Sub-Menu",
+                    "type": "range",
+                    "default": 6,
+                    "min": 4,
+                    "max": 12,
+                    "step": 1,
+                },
+            ]
+        },
+        {
+            "name": "Shaders",
+            "visible": false,
+            "settings": [
+                {
+                    "name": "Shaders - Global",
+                    "id": "shaderEnable",
+                    "description": "Enable the global shader support",
+                    "type": "bool",
+                    "default": "Enable",
+                },
+                {
+                    "name": "Curvature - Enable",
+                    "id": "shaderCurvatureEnable",
+                    "description": "Enable the screen curvature",
+                    "type": "bool",
+                    "default": "Enable",
+                },
+                {
+                    "name": "Scanlines - Enable",
+                    "id": "shaderScanlinesEnable",
+                    "description": "Enable scanline shader",
+                    "type": "bool",
+                    "default": "Enable",
+                },
+                {
+                    "name": "Scanline Distance",
+                    "id": "shaderScanlinesImageSize",
+                    "description": "Sets the scanline virtual image size.  Can help even out or fix scanlines on different resolutions.",
+                    "type": "range",
+                    "default": 180,
+                    "min": 144,
+                    "max": 288,
+                    "step": 1,
+
+                }
+            ]
+        }
+    ]
+
+}

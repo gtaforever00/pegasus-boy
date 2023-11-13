@@ -1,0 +1,140 @@
+import QtQuick 2.15
+
+import "../../Logger.js" as Logger
+import "../Scrollbar"
+import "../Generic"
+
+FocusScope {
+    id: root
+    property alias currentIndex: gamesListView.currentIndex
+    property alias currentItem: gamesListView.currentItem
+    property alias model: gamesListView.model
+    //required property var model
+
+    signal indexChanged(int currentIndex)
+
+    Scrollbar {
+        id: scrollbar
+        visibleArea: gamesListView.visibleArea
+
+        anchors {
+            left: parent.left
+            right: gamesListView.left
+            rightMargin: 3
+            top: parent.top
+            bottom: parent.bottom
+        }
+
+        // onCountChanged: {
+        //     Logger.info("Scrollbar count: " + count);
+        //     Logger.info("Scrollbar index: " + index);
+        //     Logger.info("Scrollbar rows: " + rows);
+        //     Logger.info("Scrollbar height: " + height);
+        //     Logger.info("Scrollbar width: " + width);
+        // }
+    }
+    
+    ListView {
+        id: gamesListView
+
+        focus: parent.focus
+        property int rows: 9
+
+        //anchors.fill: parent
+        anchors {
+            top: parent.top
+            bottom: parent.bottom
+            left: parent.left
+            leftMargin: parent.width * 0.04
+            right: parent.right
+        }
+
+        orientation: ListView.Vertical
+
+        highlightRangeMode: ListView.ApplyRange
+        preferredHighlightBegin: (height / 2) - (height / rows)
+        preferredHighlightEnd: (height / 2) + (height / rows)
+        highlightMoveDuration: 0
+
+        model: []
+        clip: true
+
+        delegate: gamesListDelegate
+
+    }
+
+    // ItemList {
+    //     id: gamesListView
+    //     focus: true
+    //     rows: 9
+
+    //     anchors {
+    //         top: parent.top
+    //         bottom: parent.bottom
+    //         left: parent.left
+    //         leftMargin: parent.width * 0.04
+    //         right: parent.right
+    //     }
+
+
+    // }
+
+    Component {
+        id: gamesListDelegate
+
+        Rectangle {
+            id: gamesListRect
+
+            width: ListView.view.width
+            height: ListView.view.height / ListView.view.rows
+
+            color: ListView.isCurrentItem ? themeData.colorTheme[theme].primary : themeData.colorTheme[theme].background
+
+            Rectangle {
+                id: gamesListFavorite
+
+                width: height
+                height: gamesListText.font.pixelSize * 0.7
+
+                anchors {
+                    verticalCenter: parent.verticalCenter
+                    left: parent.left
+                    leftMargin: parent.width * 0.02
+                }
+
+                color: gamesListRect.ListView.isCurrentItem ? themeData.colorTheme[theme].background : themeData.colorTheme[theme].primary
+                visible: modelData.favorite
+            }
+
+            Text {
+                id: gamesListText
+
+                width: parent.width
+                //height: parent.height
+
+                // anchors.top: parent.top
+                //anchors.left: parent.left
+                anchors.left: gamesListFavorite.right
+                // anchors.right: parent.right
+                // anchors.bottom: parent.bottom
+                anchors.leftMargin: parent.width * 0.02
+                anchors.verticalCenter: parent.verticalCenter
+
+                font.family: "HackRegular"
+                // fontSizeMode: Text.HorizontalFit
+                // minimumPixelSize: 8
+                // font.pixelSize: 72
+                font.pixelSize: parent.height * 0.4
+
+                elide: Text.ElideRight
+                color: gamesListRect.ListView.isCurrentItem ? themeData.colorTheme[theme].background : themeData.colorTheme[theme].primary
+
+
+                text: modelData.title
+            }
+            
+        }
+    }
+
+}
+
