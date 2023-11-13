@@ -4,7 +4,7 @@ Pegasus boy is a theme for Pegasus Frontend.  It is themed after terminal based 
 
 ## Installation
 
-Download the latest release and place in your Pegasus theme directory under a folder called `pegasus-boy`.
+Download the [latest release](https://github.com/gtaforever00/pegasus-boy/releases/latest) and place in your Pegasus theme directory under a folder called `pegasus-boy`.
 
 This theme has only been tested on the latest version of Pegasus.  Compatability may vary on older versions.
 
