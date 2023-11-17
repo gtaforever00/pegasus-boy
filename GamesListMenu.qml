@@ -88,6 +88,7 @@ FocusScope {
 
             if (api.keys.isAccept(event)) {
                 event.accepted = true;
+                Logger.info("GamesListMenu:keys:accept:launchingGame:" + currentGame.title);
                 currentGame.launch();
                 return;
             }
