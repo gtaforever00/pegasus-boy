@@ -17,6 +17,10 @@ Item {
         return collections;
     }
 
+    property var allGamesModel: {
+        return api.allGames;
+    }
+
 
     property var colorTheme: {
         "Default": {

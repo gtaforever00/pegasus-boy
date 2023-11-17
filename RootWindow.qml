@@ -75,16 +75,23 @@ Item {
     Component {
         id: collectionsMenu
 
-        CollectionsMenu {
+        GamesListMenu {
             focus: contentLoader.focus
+            subMenuEnable: true
+            subMenuModel: themeData.collectionsModel
+            gamesListModel: themeData.collectionsModel[collectionsMenuListView.currentIndex].games
+
         }
     }
 
     Component {
         id: favoritesMenu
 
-        FavoritesMenu {
+        GamesListMenu {
             focus: contentLoader.focus
+            subMenuEnable: false
+            gamesListModel: api.allGames
+            filterOnlyFavorites: true
         }
     }
 
@@ -99,8 +106,11 @@ Item {
     Component {
         id: lastPlayedMenu
 
-        LastPlayedMenu {
+        GamesListMenu {
             focus: contentLoader.focus
+            subMenuEnable: false
+            gamesListModel: api.allGames
+            filterByDate: true
         }
     }
 
