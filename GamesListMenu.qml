@@ -94,7 +94,7 @@ FocusScope {
 
             if (api.keys.isPageUp(event)) {
                 event.accepted = true;
-                var count = themeData.collectionsModel[collectionsMenuListView.currentIndex].games.count;
+                var count = gamesListView.model.count;
                 var index = gamesListView.currentIndex - 10;
                 if (index < 0) {index = 0;}
                 gamesListView.currentIndex = index;
@@ -103,7 +103,7 @@ FocusScope {
 
             if (api.keys.isPageDown(event)) {
                 event.accepted = true;
-                var count = themeData.collectionsModel[collectionsMenuListView.currentIndex].games.count;
+                var count = gamesListView.model.count;
                 var index = gamesListView.currentIndex + 10;
                 if (index > count) {index = count - 1;}
                 gamesListView.currentIndex = index;
