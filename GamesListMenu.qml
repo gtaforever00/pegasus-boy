@@ -42,11 +42,11 @@ FocusScope {
         property bool filterFavoritesOnTop: false
 
         property var currentCollection: {
-            return themeData.collectionsModel[collectionsMenuListView.currentIndex]
+            return subMenuModel[collectionsMenuListView.currentIndex]
         }
 
         property var currentGame: { 
-            return themeData.collectionsModel[collectionsMenuListView.currentIndex].games.get(gamesListView.currentIndex)
+            return gamesListModel.get(gamesListProxyModel.mapToSource(gamesListView.currentIndex))
         }
 
         Keys.onPressed: {
@@ -58,6 +58,7 @@ FocusScope {
                     // Hacky force refresh of game media
                     gamesMediaLoader.active = false
                     gamesMediaLoader.active = true
+                    Logger.debug("GamesListMenu:keys:left:currentSubMenu:" + currentCollection.name)
                 }
                 return;
             }
@@ -70,6 +71,7 @@ FocusScope {
                     // Hacky force refresh of game media
                     gamesMediaLoader.active = false
                     gamesMediaLoader.active = true
+                    Logger.debug("GamesListMenu:keys:right:currentSubMenu:" + currentCollection.name)
                 }
                 return;
             }
@@ -186,6 +188,8 @@ FocusScope {
             Component.onCompleted: {
                 currentIndex = collectionsMenuRoot.gamesListIndex;
             }
+
+            onCurrentIndexChanged: Logger.debug("GamesListMenu:gamesListView:currentGame:" + collectionsMenuRoot.currentGame.title) 
 
         }
 
