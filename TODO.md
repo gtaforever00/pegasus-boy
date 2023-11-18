@@ -4,8 +4,6 @@ Pegasus boy is a theme for Pegasus Frontend
 
 ### Todo
 
-- [ ] Restore index of collections and games  
-- [ ] Ensure collections and games sortby is respected  
 - [ ] Configure favorites to be on top of game lists  
 - [ ] Video playback on game list media  
 - [ ] Color scheme options  
@@ -22,6 +20,9 @@ Pegasus boy is a theme for Pegasus Frontend
 - [ ] More shaders
 
 ### In Progress
+
+- [ ] Restore index of collections and games  
+- [ ] Ensure collections and games sortby is respected  
 
 ### Done
 
