@@ -5,13 +5,14 @@ FocusScope {
     // focus: menu.focus
     //property alias testString: menuRoot.testString
     //property alias currentIndex: menuRoot
-    property alias menuIndex: menuRoot.menuIndex
+    property alias currentIndex: menuRoot.currentIndex
+    property alias menuListView: menuRoot.listView
 
 
     Item {
         id: menuRoot
-        property alias index: menuListView.currentIndex
-        property alias menuIndex: menuListView
+        property alias currentIndex: menuListView.currentIndex
+        property alias listView: menuListView
         // width: parent.width * 0.7
         // height: parent.height * 0.7
         width: parent.width * 0.95
@@ -129,7 +130,7 @@ FocusScope {
                 console.log("menu Listview loaded")
                 console.log("Root Current Index: " + root.currentmenuIndex)
 
-                currentIndex = root.currentmenuIndex
+                //currentIndex = root.currentmenuIndex
             }
 
             onCurrentIndexChanged: {

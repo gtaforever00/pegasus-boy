@@ -11,15 +11,15 @@ Item {
         if (api.keys.isNextPage(event)) {
             event.accepted = true
             // console.log(menuTop.listView.currentIndex)
-            menuLoader.item.menuIndex.incrementCurrentIndex()
-            Logger.info("Menu Index: " + menuLoader.item.menuIndex.currentIndex)
+            menuItem.menuListView.incrementCurrentIndex()
+            Logger.info("Menu Index: " + menuLoader.item.currentIndex)
             return
         }
 
         if (api.keys.isPrevPage(event)) {
             event.accepted = true
-            menuLoader.item.menuIndex.decrementCurrentIndex()
-            Logger.info("Menu Index: " + menuLoader.item.menuIndex.currentIndex)
+            menuItem.menuListView.decrementCurrentIndex()
+            Logger.info("Menu Index: " + menuLoader.item.currentIndex)
             return
         }
 
@@ -48,6 +48,7 @@ Item {
         Menu {
             id: menu
             focus: menuLoader.focus
+            currentIndex: themeSettings["menuIndex_main"]
         }
     }
 
@@ -57,6 +58,7 @@ Item {
 
     }
 
+    property alias contentItem: contentLoader.item
     Loader {
         id: contentLoader
         focus: true
@@ -80,7 +82,11 @@ Item {
             subMenuEnable: true
             subMenuModel: themeData.collectionsModel
             gamesListModel: themeData.collectionsModel[collectionsMenuListView.currentIndex].games
+            menuName: rootWindow.state
 
+            Component.onCompleted: {
+                Logger.info("RootWindow:collectionsMenu:onCompleted");
+            }
         }
     }
 
@@ -92,6 +98,7 @@ Item {
             subMenuEnable: false
             gamesListModel: api.allGames
             filterOnlyFavorites: true
+            menuName: rootWindow.state
         }
     }
 
@@ -111,6 +118,7 @@ Item {
             subMenuEnable: false
             gamesListModel: api.allGames
             filterByDate: true
+            menuName: rootWindow.state
         }
     }
 
@@ -134,31 +142,37 @@ Item {
     states: [
         State {
             name: "games"
-            when: menuItem.menuIndex.currentIndex == 0
-            PropertyChanges {
-                target: contentLoader
-                sourceComponent: collectionsMenu
-            }
+            when: menuItem.currentIndex == 0
+            changes: [
+                PropertyChanges {
+                    target: contentLoader
+                    sourceComponent: collectionsMenu
+                }
+            ]
         },
         State {
             name: "favorites"
-            when: menuItem.menuIndex.currentIndex == 1
-            PropertyChanges {
-                target: contentLoader
-                sourceComponent: favoritesMenu
-            }
+            when: menuItem.currentIndex == 1
+            changes: [
+                PropertyChanges {
+                    target: contentLoader
+                    sourceComponent: favoritesMenu
+                }
+            ]
         },
         State {
             name: "lastplayed"
-            when: menuItem.menuIndex.currentIndex == 2
-            PropertyChanges {
-                target: contentLoader
-                sourceComponent: lastPlayedMenu
-            }
+            when: menuItem.currentIndex == 2
+            changes: [
+                PropertyChanges {
+                    target: contentLoader
+                    sourceComponent: lastPlayedMenu
+                }
+            ]
         },
         State {
             name: "settings"
-            when: menuItem.menuIndex.currentIndex == 3
+            when: menuItem.currentIndex == 3
             PropertyChanges {
                 target: contentLoader
                 sourceComponent: settingsMenu
@@ -166,6 +180,18 @@ Item {
         }
     ]
 
-    onStateChanged: Logger.info("rootWindow state is: " + state )
+    onStateChanged: {
+        Logger.info("rootWindow:stateChanged:state:" + state);
+        if (menuItem !== null) {
+            themeSettings["menuIndex_main"] = menuItem.currentIndex;
+        }
+    }
+
+    Component.onCompleted: {
+        Logger.info("rootWindow:onCompleted");
+        if (menuItem !== null) {
+            menuItem.currentIndex = themeSettings["menuIndex_main"];
+        }
+    }
 
 }

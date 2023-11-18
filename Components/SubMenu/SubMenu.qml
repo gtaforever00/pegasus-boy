@@ -14,8 +14,10 @@ FocusScope {
 
     property alias textName: subMenuDelegate.textName
 
-    signal indexChanged(int currentIndex)
-
+    function moveIndex(index) {
+        subMenuListView.currentIndex = index;
+        subMenuListView.positionViewAtIndex(index, ListView.SnapPosition);
+    }
 
     ListView {
         id: subMenuListView
@@ -94,9 +96,15 @@ FocusScope {
             // )
             columns = themeSettings.subMenuColumns;
             resizeFont()
+            // The position for the middle elements caused it to be at the beginning
+            // This is a workaround to fix the view
+            if (currentIndex > 0) { positionViewAtIndex(currentIndex - 1, ListView.SnapPosition) }
+            else { positionViewAtIndex(currentIndex, ListView.SnapPosition) }
         }
 
-        //onCurrentIndexChanged: root.indexChanged(currentIndex)
+        onCurrentIndexChanged: {
+            Logger.info("SubMenu:subMenuListView:currentIndexChanged:" + currentIndex)
+        }
     }
 
     SubMenuDelegate {

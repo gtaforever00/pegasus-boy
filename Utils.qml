@@ -56,10 +56,26 @@ Item {
         return index;
     }
 
+    function getModelByValue(model, criteria) {
+        for(var i=0; i < model.count; ++i) {
+            if (criteria(model.get(i))) { return model.get(i) }
+        }
+        return null
+    }
+    
+    function findModelIndex(model, criteria) {
+        Logger.info("Utils:findModelIndex:model:" + model);
+        for(var i=0; i < model.count; ++i) {
+            if (criteria(model.get(i))) { return i }
+        }
+        Logger.info("Utils:findModelIndex:NoMatch");
+        return 0
+    }
+
     Component.onCompleted: {
         // var logger = Logger;
         Logger.LOG_PRIORITY = Logger.DEBUG;
-        Logger.info("Hello log");
+        Logger.info("Utils:onCompleted:Logger:" + Logger.LOG_PRIORITY);
     }
 
 

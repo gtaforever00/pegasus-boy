@@ -14,6 +14,9 @@ FocusScope {
     property alias subMenuModel: collectionsMenuRoot.subMenuModel
     property alias subMenuEnable: collectionsMenuRoot.subMenuEnable
     property alias collectionsMenuListView: collectionsMenuRoot.collectionsMenuListView
+    property alias subMenuIndex: collectionsMenuRoot.subMenuIndex
+
+    property alias menuName: collectionsMenuRoot.menuName
 
     property alias filterOnlyFavorites: collectionsMenuRoot.filterOnlyFavorites
     property alias filterByDate: collectionsMenuRoot.filterByDate
@@ -30,12 +33,13 @@ FocusScope {
         property alias collectionsMenuListView: collectionsMenuListView
         property alias gamesListView: gamesListView
         
+        required property string menuName
+
         required property bool subMenuEnable
         property var subMenuModel: []
         property int subMenuIndex: 0
 
         required property var gamesListModel
-        property int gamesListIndex: 0
 
         property bool filterOnlyFavorites: false
         property bool filterByDate: false
@@ -112,12 +116,13 @@ FocusScope {
             }
         }
 
-
+        // TODO Only load or save when subMenuEnable is active
         SubMenu {
             id: collectionsMenuListView
 
             focus: false
-            visible: true
+            visible: subMenuEnable ? true : false
+            enabled: subMenuEnable ? true : false
 
             width: parent.width * (themeSettings.subMenuWidth / 100)
             height: parent.height * (themeSettings.subMenuHeight / 100)
@@ -134,8 +139,23 @@ FocusScope {
                 return "name";
             }
 
-            Component.onCompleted: {
-                currentIndex = collectionsMenuRoot.subMenuIndex
+            currentIndex: {
+                Logger.info("GamesListMenu:collectionsMenuListView:onCompleted")
+                Logger.info("GamesListMenu:collectionsMenuListView:onCompleted:typeof:" + (typeof subMenuModel))
+                //const isCollection = (element) => element.name === themeSettings["menuIndex_" + menuName + "_subMenu"]
+                //let index = utils.findModelIndex(subMenuModel, isCollection)
+                Logger.info("GamesListMenu:collectionsMenuListView:onCompleted:count:" + (subMenuModel.length))
+                for(var i=0; i < subMenuModel.length; ++i) {
+                    Logger.info("DEBUG:" + subMenuModel[i].name)
+                    if (subMenuModel[i].name === themeSettings["menuIndex_subMenu"]) {
+                        return i;
+                    }
+                }
+                return 0;
+            }
+
+            Component.onDestruction: {
+                themeSettings["menuIndex_subMenu"] = collectionsMenuRoot.currentCollection.name; 
             }
             
         }
@@ -164,9 +184,9 @@ FocusScope {
 
             onModelReset: Logger.info("GamesListMenu:gamesListProxyModel:modelReset")
 
-            Component.onCompleted: {
-                gamesListView.model = gamesListProxyModel;
-            }
+//            Component.onCompleted: {
+//                gamesListView.model = gamesListProxyModel;
+//            }
         }
 
         ItemList {
@@ -183,14 +203,22 @@ FocusScope {
 
             width: parent.width * (themeSettings.itemListWidth / 100)
 
-            model: [] 
+            model: gamesListProxyModel
             delegate: gamesListDelegate.delegate
 
             Component.onCompleted: {
-                currentIndex = collectionsMenuRoot.gamesListIndex;
+                const isGame = (element) => element.title === themeSettings["menuIndex_gamesList"]
+                let index = utils.findModelIndex(gamesListView.model, isGame); 
+                //let index = utils.findModelIndex(gamesListModel, isGame); 
+                Logger.info("GameListMenu:gameListView:onCompleted:savedIndex:" + index);
+                gamesListView.moveIndex(index);
+                //gamesListView.positionViewAtIndex(index, ListView.SnapPosition);
             }
 
-            onCurrentIndexChanged: Logger.debug("GamesListMenu:gamesListView:currentGame:" + collectionsMenuRoot.currentGame.title) 
+            Component.onDestruction: { 
+                Logger.debug("GamesListMenu:gamesListView:currentGame:" + collectionsMenuRoot.currentGame.title) 
+                themeSettings["menuIndex_gamesList"] = collectionsMenuRoot.currentGame.title
+            }
 
         }
 

@@ -29,6 +29,9 @@ Item {
         "shaderCurvatureEnable",
         "shaderScanlinesEnable",
         "shaderScanlinesImageSize",
+        "menuIndex_main",
+        "menuIndex_subMenu",
+        "menuIndex_gamesList",
     ]
 
 
@@ -39,10 +42,10 @@ Item {
     property int settingsVersion: 1
 
     // Application state
-    property int menuIndex: 0
-    property int collectionIndex: 0
-    property int favoritesIndex: 0
-    property int lastPlayedIndex: 0
+
+    property int menuIndex_main: 0
+    property string menuIndex_subMenu: ""
+    property string menuIndex_gamesList: ""
 
 
     // User configurable settings
@@ -95,7 +98,9 @@ Item {
     }
 
     function saveAllSettings() {
-        return;
+        for(let i=0; i < settingsList.length; i++) {
+            saveSetting(settingsList[i], themeSettings[settingsList[i]]);
+        }
     }
 
     // Load settings
@@ -105,7 +110,7 @@ Item {
 
     // Save settings
     Component.onDestruction: {
-        api.memory.set("theme", theme);
+        saveAllSettings();
     }
 
 }

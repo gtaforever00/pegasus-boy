@@ -12,6 +12,13 @@ FocusScope {
     property alias rows: itemListView.rows
     //required property var model
 
+    function moveIndex(index) {
+        Logger.info("ItemList:moveIndex:" + index)
+        itemListView.currentIndex = index;
+        itemListView.positionViewAtIndex(index, ListView.SnapPosition);
+    }
+//    onIndexChanged: (index) => itemListView.positionViewAtIndex(index, ListView.SnapPostiion)
+
     Scrollbar {
         id: scrollbar
         visibleArea: itemListView.visibleArea
@@ -52,6 +59,10 @@ FocusScope {
         clip: true
 
         Component.onCompleted: positionViewAtIndex(currentIndex, ListView.SnapPosition)
+
+        onCurrentIndexChanged: {
+            Logger.info("ItemList:itemListView:indexchanged:" + currentIndex)
+        }
 
         //delegate: gamesListDelegate
 
