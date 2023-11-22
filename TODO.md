@@ -22,7 +22,7 @@ Pegasus boy is a theme for Pegasus Frontend
 ### In Progress
 
 - [ ] Restore index of collections and games  
-- [ ] Ensure collections and games sortby is respected  
+- [x] Ensure collections and games sortby is respected  
 
 ### Done
 
