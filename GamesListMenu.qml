@@ -116,6 +116,19 @@ FocusScope {
             }
         }
 
+        SortFilterProxyModel {
+            id: collectionsMenuProxyModel
+
+            sourceModel: themeData.testCollectionsModel
+            sorters: [
+                RoleSorter {
+                    roleName: "sortBy"
+                }
+            ]
+
+            Component.onCompleted: Logger.info("collections proxy model: " + sourceModel.count)
+        }
+
         // TODO Only load or save when subMenuEnable is active
         SubMenu {
             id: collectionsMenuListView
@@ -132,7 +145,7 @@ FocusScope {
             anchors.left: parent.left
             anchors.leftMargin: parent.width * 0.06
 
-            model: subMenuModel
+            model: collectionsMenuProxyModel
 
             textName: {
                 if (themeSettings.collectionShortNames) { return "shortName"};
