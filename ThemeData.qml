@@ -1,8 +1,33 @@
 import QtQuick 2.15
 
+import "Logger.js" as Logger
+
 Item {
 
     // Add an All to the main collections model
+    // Dynamically create a ListModel to keep compatability
+    property alias testCollectionsModel: _testCollectionsModel
+    ListModel {
+        id: _testCollectionsModel
+
+        Component.onCompleted: {
+            const collections = api.collections
+            const allCollection = {
+                name: "All",
+                shortName: "all",
+                games: api.allGames
+            }
+
+            if (themeSettings.collectionAllGames) {
+                testCollectionsModel.append(allCollection)
+            }
+
+            for (var i=0; i < collections.count; ++i) {
+                testCollectionsModel.append(collections.get(i))
+            }
+        }
+    }
+
     property var collectionsModel: {
         var collections = api.collections.toVarArray();
         if (themeSettings.collectionAllGames) {
