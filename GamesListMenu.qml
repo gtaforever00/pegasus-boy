@@ -181,6 +181,11 @@ FocusScope {
                     }
                 }
             ]
+            sorters: [
+                RoleSorter {
+                    roleName: "sortBy"
+                }
+            ]
 
             onModelReset: Logger.info("GamesListMenu:gamesListProxyModel:modelReset")
 
