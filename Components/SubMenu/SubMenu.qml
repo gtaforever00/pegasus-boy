@@ -76,10 +76,16 @@ FocusScope {
         }
 
         function resizeFont() {
+            const collectionNames = []
+            for(var i=0; i < subMenuListView.model.count; ++i) {
+                collectionNames.push(subMenuListView.model.get(i))
+            }
+            Logger.info("SubMenu:resizeFont:list:typeof:" + (typeof collectionNames))
             fontSize = utils.calculateFontSizeModel(subMenuListFont.font, 
                 (subMenuListView.width / subMenuListView.columns) * 0.8,
                 subMenuListView.height, 
-                model.map((x) => x[subMenuDelegate.textName])
+                collectionNames.map((x) => x[subMenuDelegate.textName])
+                //model.map((x) => x[subMenuDelegate.textName])
                 // model.map((x) => x.name)
                 // model.toVarArray().map((x) => x.name)
             );

@@ -21,7 +21,7 @@ Item {
 
             Text {
                 id: subMenuText
-                text: modelData[textName]
+                text: model[textName]
 
                 font.family: "HackRegular"
                 font.pixelSize: subMenuListView.fontSize
