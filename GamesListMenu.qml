@@ -20,7 +20,6 @@ FocusScope {
 
     property alias filterOnlyFavorites: collectionsMenuRoot.filterOnlyFavorites
     property alias filterByDate: collectionsMenuRoot.filterByDate
-    property alias filterFavoritesOnTop: collectionsMenuRoot.filterFavoritesOnTop
     
 
     Item {
@@ -41,7 +40,6 @@ FocusScope {
 
         property bool filterOnlyFavorites: false
         property bool filterByDate: false
-        property bool filterFavoritesOnTop: false
 
         property var currentCollection: {
             return subMenuModel.get(collectionsMenuListView.currentIndex)
@@ -170,7 +168,6 @@ FocusScope {
         SortFilterProxyModel {
             id: gamesListProxyModel
             sourceModel: collectionsMenuRoot.gamesListModel
-            delayed: true
             filters: [
                 ValueFilter {
                     enabled: collectionsMenuRoot.filterOnlyFavorites
@@ -190,6 +187,16 @@ FocusScope {
             sorters: [
                 RoleSorter {
                     roleName: "sortBy"
+                },
+                FilterSorter {
+                    enabled: themeSettings.gamesFavoritesOnTop
+                    priority: 1000
+                    filters: [
+                        ValueFilter {
+                            roleName: "favorite"
+                            value: true
+                        }
+                    ]
                 }
             ]
 

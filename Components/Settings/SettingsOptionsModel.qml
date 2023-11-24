@@ -55,6 +55,13 @@ Item {
                     "type": "bool",
                     "default": "Disable",
                 },
+                {
+                    "name": "Show favorites on top",
+                    "id": "gamesFavoritesOnTop",
+                    "description": "Show favorites on top of the games list",
+                    "type": "bool",
+                    "default": "Disable",
+                },
             ]
         },
         {
