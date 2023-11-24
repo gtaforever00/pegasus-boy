@@ -35,9 +35,7 @@ Item {
     ]
 
 
-    property string theme: {
-        return "Default"
-    }
+    property string theme: "Default"
 
     property int settingsVersion: 1
 
