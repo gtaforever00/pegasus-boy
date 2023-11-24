@@ -13,10 +13,6 @@ FocusScope {
         source: "./assets/fonts/Hack/Hack-Regular.ttf"
     }
 
-    property string theme: {
-        return "Default"
-    }
-
     property var menuOptions: [
         { name: "collections", title: "Games"},
         { name: "favorites", title: "Favorite"},
@@ -28,6 +24,7 @@ FocusScope {
     ThemeSettings {
         id: themeSettings
     }
+    property alias theme: themeSettings.theme
 
     ThemeData {
         id: themeData
