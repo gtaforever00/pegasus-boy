@@ -46,7 +46,7 @@ FocusScope {
         property bool filterFavoritesOnTop: false
 
         property var currentCollection: {
-            return subMenuModel[collectionsMenuListView.currentIndex]
+            return subMenuModel.get(collectionsMenuListView.currentIndex)
         }
 
         property var currentGame: { 
