@@ -119,7 +119,7 @@ FocusScope {
         SortFilterProxyModel {
             id: collectionsMenuProxyModel
 
-            sourceModel: themeData.testCollectionsModel
+            sourceModel: themeData.collectionsListModel
             sorters: [
                 RoleSorter {
                     roleName: "sortBy"

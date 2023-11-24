@@ -6,9 +6,9 @@ Item {
 
     // Add an All to the main collections model
     // Dynamically create a ListModel to keep compatability
-    property alias testCollectionsModel: _testCollectionsModel
+    property alias collectionsListModel: collectionsListModel
     ListModel {
-        id: _testCollectionsModel
+        id: collectionsListModel 
 
         Component.onCompleted: {
             const collections = api.collections
@@ -19,27 +19,13 @@ Item {
             }
 
             if (themeSettings.collectionAllGames) {
-                testCollectionsModel.append(allCollection)
+                collectionsListModel.append(allCollection)
             }
 
             for (var i=0; i < collections.count; ++i) {
-                testCollectionsModel.append(collections.get(i))
+                collectionsListModel.append(collections.get(i))
             }
         }
-    }
-
-    property var collectionsModel: {
-        var collections = api.collections.toVarArray();
-        if (themeSettings.collectionAllGames) {
-            collections.unshift(
-                {
-                    "name": "All",
-                    "shortName": "all",
-                    "games": api.allGames
-                }
-            );
-        }
-        return collections;
     }
 
     property var allGamesModel: {

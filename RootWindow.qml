@@ -80,8 +80,8 @@ Item {
         GamesListMenu {
             focus: contentLoader.focus
             subMenuEnable: true
-            subMenuModel: themeData.collectionsModel
-            gamesListModel: themeData.collectionsModel[collectionsMenuListView.currentIndex].games
+            subMenuModel: themeData.collectionsListModel
+            gamesListModel: themeData.collectionsListModel.get(collectionsMenuListView.currentIndex).games
             menuName: rootWindow.state
 
             Component.onCompleted: {
