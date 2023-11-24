@@ -21,9 +21,12 @@ Item {
 
         color: themeData.colorTheme[theme].primary
 
-        visible: height < parent.height
+        // adding .01 to the height fixes a bug where the scrollbar would show
+        // if the games matched the rows equally
+        visible: height + 0.01 < parent.height
 
         y: {
+            // scale scrollbar based on height of scrollbar
             var ratio = (height / parent.height) - visibleArea.heightRatio;
             var posY = (visibleArea.yPosition * (1 - ratio)) * parent.height;
             Logger.debug("Scrollbar:y:" + posY);
