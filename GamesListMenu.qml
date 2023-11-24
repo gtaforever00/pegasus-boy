@@ -158,9 +158,9 @@ FocusScope {
                 //const isCollection = (element) => element.name === themeSettings["menuIndex_" + menuName + "_subMenu"]
                 //let index = utils.findModelIndex(subMenuModel, isCollection)
                 Logger.info("GamesListMenu:collectionsMenuListView:onCompleted:count:" + (subMenuModel.length))
-                for(var i=0; i < subMenuModel.length; ++i) {
-                    Logger.info("DEBUG:" + subMenuModel[i].name)
-                    if (subMenuModel[i].name === themeSettings["menuIndex_subMenu"]) {
+                for(var i=0; i < subMenuModel.count; ++i) {
+                    Logger.info("DEBUG:" + subMenuModel.get(i).name)
+                    if (subMenuModel.get(i).name === themeSettings["menuIndex_subMenu"]) {
                         return i;
                     }
                 }
