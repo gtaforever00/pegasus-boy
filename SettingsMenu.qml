@@ -94,8 +94,8 @@ FocusScope {
             anchors.left: parent.left
             anchors.leftMargin: parent.width * 0.06
 
-            model: settingsData.settingsModel
-            
+            model: settingsData.settingsListModel
+
         }
 
         // SettingsList {
@@ -129,7 +129,8 @@ FocusScope {
 
             width: parent.width * (themeSettings.itemListWidth / 100)
 
-            model: settingsData.settingsModel[collectionsMenuListView.currentIndex].settings
+            //model: settingsData.settingsListModel.get(currentIndex).settings
+            model: collectionsMenuListView.model.get(collectionsMenuListView.currentIndex).settings
             delegate: settingsListDelegate.delegate
         }
 
@@ -170,7 +171,7 @@ FocusScope {
 
                 text: {
                     return "Description: " +
-                        settingsData.settingsModel[collectionsMenuListView.currentIndex].settings[settingsListView.currentIndex].description;
+                        settingsListView.model.get(settingsListView.currentIndex).description;
                 }
             }
 
@@ -184,10 +185,13 @@ FocusScope {
                 color: themeData.colorTheme[theme].primary
 
                 text: {
+                    Logger.info("SettingsMenu:settingsInfoDefault:" + settingsListView.model.get(settingsListView.currentIndex).default)
                     return "Default: " +
-settingsData.settingsModel[collectionsMenuListView.currentIndex].settings[settingsListView.currentIndex].default;
-                    //themeSettings[settingsData.settingsModel[collectionsMenuListView.currentIndex].settings[settingsListView.currentIndex].id];
+                    settingsListView.model.get(settingsListView.currentIndex).default;
                 }
+
+                onTextChanged: Logger.info("SettingsMenu:settingsInfoDefault:" + settingsListView.model.get(settingsListView.currentIndex).default)
+
             }
         }
 
@@ -207,8 +211,8 @@ settingsData.settingsModel[collectionsMenuListView.currentIndex].settings[settin
                 rightMargin: parent.width * 0.05
             }
 
-            model: settingsData.settingsModel[collectionsMenuListView.currentIndex].settings[settingsListView.currentIndex]
-
+            //model: settingsData.settingsModel[collectionsMenuListView.currentIndex].settings[settingsListView.currentIndex]
+            model: settingsListView.model.get(settingsListView.currentIndex)
 
         }
 

@@ -73,6 +73,10 @@ FocusScope {
                 Logger.debug("SettingsOptions:onModelChanged:id:" + optionsRoot.settingModel.id);
                 setIndex();
             }
+
+            onModelChanged: {
+                Logger.info("SettingsOptions:onModelChanged:model:" + model.count);
+            }
         }
 
         SettingsOptionsDelegate {
@@ -88,7 +92,13 @@ FocusScope {
                 // when: settingType == "list"
                 PropertyChanges {
                     target: settingsListView
-                    model: optionsRoot.settingModel.options
+                    model: {
+                        const list = []
+                        for(var i=0; i < optionsRoot.settingModel.options.count; ++i) {
+                            list.push(optionsRoot.settingModel.options.get(i).value)
+                        }
+                        return list
+                    }
                 }
                 PropertyChanges {
                     target: settingsListView

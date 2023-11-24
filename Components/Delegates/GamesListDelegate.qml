@@ -41,7 +41,8 @@ Item {
                     if (activeFocus) { return gamesListRect.ListView.isCurrentItem ? themeData.colorTheme[theme].background : themeData.colorTheme[theme].primary };
                     gamesListRect.ListView.isCurrentItem ? themeData.colorTheme[theme].background : themeData.colorTheme[theme].light;
                 }
-                visible: modelData.favorite !== undefined && modelData.favorite
+                visible: model.favorite !== undefined && model.favorite
+                //visible: modelData.favorite !== undefined && modelData.favorite
             }
 
             Text {
@@ -68,7 +69,8 @@ Item {
                 color: gamesListRect.ListView.isCurrentItem ? themeData.colorTheme[theme].background : themeData.colorTheme[theme].primary
 
 
-                text: modelData[textName]
+                text: model[textName]
+                //text: modelData[textName]
             }
             
         }
