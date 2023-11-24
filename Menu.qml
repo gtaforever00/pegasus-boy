@@ -2,9 +2,6 @@ import QtQuick 2.15
 
 FocusScope {
 
-    // focus: menu.focus
-    //property alias testString: menuRoot.testString
-    //property alias currentIndex: menuRoot
     property alias currentIndex: menuRoot.currentIndex
     property alias menuListView: menuRoot.listView
 
@@ -13,8 +10,7 @@ FocusScope {
         id: menuRoot
         property alias currentIndex: menuListView.currentIndex
         property alias listView: menuListView
-        // width: parent.width * 0.7
-        // height: parent.height * 0.7
+
         width: parent.width * 0.95
         height: parent.height * 0.95
 
@@ -23,7 +19,6 @@ FocusScope {
         anchors {
             horizontalCenter: parent.horizontalCenter
             top: parent.top
-            //topMargin: parent.height * 0.3
         }
 
         ListView {
@@ -55,7 +50,6 @@ FocusScope {
             }
 
             function calculateFontSize(minSize = 8, maxSize = 72) {
-                //property int fontSize = menuListFont.font.pixelSize;
                 // Minimum size
                 var size = maxSize;
                 var eWidth = (menuListView.width / menuListView.columns) * 0.8;
@@ -64,7 +58,6 @@ FocusScope {
                 console.log("The height of e: " + eHeight)
                 model.forEach((item) => {
                     var fSize;
-                    //menuListFont.text = item.title;
                     menuListFont.font.pixelSize = eHeight;
                     menuListFont.text = item.title;
                     var brect = menuListFont.boundingRect;
@@ -90,7 +83,6 @@ FocusScope {
             delegate: menuListDelegate
 
             orientation: ListView.Horizontal
-            //spacing: contentItem.childrenRect.width * 0.02
 
             interactive: false
             clip: true
@@ -120,17 +112,10 @@ FocusScope {
             onWidthChanged: resizeFont()
 
             Component.onCompleted: {
-                //fontSize = calculateFontSize()
-                // fontSize = utils.calculateFontSizeModel(menuListFont.font, 
-                //     (menuListView.width / menuListView.columns) * 0.8,
-                //     menuListView.height, 
-                //     model.map((x) => x.title)
-                // )
                 resizeFont()
                 console.log("menu Listview loaded")
                 console.log("Root Current Index: " + root.currentmenuIndex)
 
-                //currentIndex = root.currentmenuIndex
             }
 
             onCurrentIndexChanged: {
@@ -153,7 +138,6 @@ FocusScope {
                 height: ListView.view.height
 
                 color: ListView.isCurrentItem ? themeData.colorTheme[theme].background : themeData.colorTheme[theme].background
-                //color: ListView.isCurrentItem ? themeData.colorTheme[theme].primary : themeData.colorTheme[theme].background
 
                 Text {
                     id: menuText
@@ -162,13 +146,10 @@ FocusScope {
                     font.family: "HackRegular"
                     font.pixelSize: menuListView.fontSize
                     font.bold: true
-                    //color: menuTextRect.ListView.isCurrentItem ? themeData.colorTheme[theme].background : themeData.colorTheme[theme].primary
                     color: themeData.colorTheme[theme].primary
                     font.capitalization: Font.AllUppercase
 
-                    //anchors.centerIn: parent
                     anchors {
-                        //centerIn: parent
                         bottom: parent.bottom
                         bottomMargin: parent.height * 0.02
                         horizontalCenter: parent.horizontalCenter
@@ -212,7 +193,6 @@ FocusScope {
                     Rectangle {
                         id: menuTextActiveBorderLeft
                         width: parent.height * 0.03
-                        //height: parent.height / 2
                         height: menuTextMetric.height / 2
                         color: themeData.colorTheme[theme].primary
 
@@ -248,7 +228,6 @@ FocusScope {
                     Rectangle {
                         id: menuTextActiveBorderRight
                         width: parent.height * 0.03
-                        //height: parent.height / 2
                         height: menuTextMetric.height / 2
                         color: themeData.colorTheme[theme].primary
 

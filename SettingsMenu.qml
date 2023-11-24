@@ -25,16 +25,6 @@ FocusScope {
 
         property bool settingsOptionsActive: false
 
-        // property alias gamesListView: gamesListView
-
-        // property var currentCollection: {
-        //     return themeData.collectionsModel[collectionsMenuListView.currentIndex]
-        // }
-
-        // property var currentGame: { 
-        //     return themeData.collectionsModel[collectionsMenuListView.currentIndex].games.get(gamesListView.currentIndex)
-        // }
-
         Keys.onPressed: {
             if (event.key == Qt.Key_Left) {
                 event.accepted = true;
@@ -67,18 +57,6 @@ FocusScope {
                 return;
             }
 
-            // TODO: Move to on release key event
-            // if (api.keys.isFilters(event)) {
-            //     event.accepted = true;
-            //     themeData.collectionsModel[collectionsMenuListView.currentIndex].games.get(gamesListView.currentIndex).favorite = 
-            //         !themeData.collectionsModel[collectionsMenuListView.currentIndex].games.get(gamesListView.currentIndex).favorite;
-            //     return
-            // }
-
-            // if (api.keys.isAccept(event)) {
-            //     event.accepted = true;
-            //     currentGame.launch();
-            // }
         }
 
         SubMenu {
@@ -98,23 +76,6 @@ FocusScope {
 
         }
 
-        // SettingsList {
-        //     id: gamesListView
-
-        //     focus: parent.focus
-        //     property int rows: 9
-
-        //     anchors.top: collectionsMenuListView.bottom
-        //     anchors.topMargin: parent.height * 0.02
-        //     anchors.left: parent.left
-        //     anchors.leftMargin: parent.width * 0.02
-        //     anchors.bottom: parent.bottom
-
-        //     width: parent.width * 0.40
-
-        //     model: settingsData.settingsModel[collectionsMenuListView.currentIndex].settings
-   
-        // }
 
         ItemList {
             id: settingsListView
@@ -129,7 +90,6 @@ FocusScope {
 
             width: parent.width * (themeSettings.itemListWidth / 100)
 
-            //model: settingsData.settingsListModel.get(currentIndex).settings
             model: collectionsMenuListView.model.get(collectionsMenuListView.currentIndex).settings
             delegate: settingsListDelegate.delegate
         }
@@ -205,44 +165,14 @@ FocusScope {
             anchors {
                 left: settingsListView.right
                 leftMargin: parent.width * 0.05
-                //top: collectionsMenuListView.bottom
                 bottom: parent.bottom
                 right: parent.right
                 rightMargin: parent.width * 0.05
             }
 
-            //model: settingsData.settingsModel[collectionsMenuListView.currentIndex].settings[settingsListView.currentIndex]
             model: settingsListView.model.get(settingsListView.currentIndex)
 
         }
-
-        // SettingsInfo {
-        //     id: settingsInfo
-        //     visible: false
-        //     anchors {
-        //         top: collectionsMenuListView.bottom
-        //         left: settingsListView.right
-        //         right: parent.right
-        //         bottom: settingsOptions.top
-        //     }
-        // }
-
-        // SettingsOptionList {
-        //     id: settingsOptions
-
-        //     focus: false
-
-        //     height: parent.height * 0.5
-
-        //     anchors {
-        //         left: settingsListView.right
-        //         //top: collectionsMenuListView.bottom
-        //         bottom: parent.bottom
-        //         right: parent.right
-        //     }
-
-        //     model: settingsData.settingsModel[collectionsMenuListView.currentIndex].settings[gamesListView.currentIndex].options
-        // }
 
     }
 }

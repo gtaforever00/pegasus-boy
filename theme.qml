@@ -43,7 +43,6 @@ FocusScope {
         height: parent.height
         focus: true
 
-        //sourceComponent: themeSettings.shaderEnable ? shaderComponent : rootWindowComponent
         sourceComponent: shaderComponent
         visible: status == Loader.Ready
     }

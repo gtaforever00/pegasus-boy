@@ -4,13 +4,9 @@ import "Logger.js" as Logger
 Item {
     id: rootWindow
 
-    // anchors.fill: parent
-
     Keys.onPressed: {
-        //console.log("Root element keys: " + event)
         if (api.keys.isNextPage(event)) {
             event.accepted = true
-            // console.log(menuTop.listView.currentIndex)
             menuItem.menuListView.incrementCurrentIndex()
             Logger.info("Menu Index: " + menuLoader.item.currentIndex)
             return
@@ -66,7 +62,6 @@ Item {
         asynchronous: true
         anchors {
             top: menuLoader.bottom
-            //bottom: footerLoader.top
             bottomMargin: parent.height * 0.03
             bottom: parent.bottom
             left: parent.left
@@ -122,22 +117,6 @@ Item {
         }
     }
 
-    // Loader {
-    //     id: footerLoader
-    //     height: parent.height * 0.08
-    //     width: parent.width
-    //     anchors.bottom: parent.bottom
-    //     focus: false
-    //     sourceComponent: footer
-    //     asynchronous: true
-    //     visible: status == Loader.Ready
-    // }
-
-    // Component {
-    //     id: footer
-
-    //     Footer {}
-    // }
 
     states: [
         State {
