@@ -10,8 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Save index of gamelist on exit
+- Collection and Game list respect sortBy
 
 ### Changed
+
+- Moved collection and game list to ListModel
 
 ### Fixed
 
