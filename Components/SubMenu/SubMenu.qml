@@ -93,6 +93,7 @@ FocusScope {
 
         onHeightChanged: resizeFont()
         onWidthChanged: resizeFont()
+        onCountChanged: resizeFont()
 
         Component.onCompleted: {
             // fontSize = utils.calculateFontSizeModel(subMenuListFont.font, 
