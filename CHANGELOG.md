@@ -18,6 +18,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Various code cleanup
+
 ## [0.1.2]
 
 Fix various bugs around new menu merge
