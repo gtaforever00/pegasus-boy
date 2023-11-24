@@ -28,8 +28,6 @@ FocusScope {
         width: parent.width
         height: parent.height
 
-        // focus: parent.focus
-
         property alias collectionsMenuListView: collectionsMenuListView
         property alias gamesListView: gamesListView
         
@@ -83,8 +81,6 @@ FocusScope {
             // TODO: Move to on release key event
             if (api.keys.isFilters(event)) {
                 event.accepted = true;
-//                themeData.collectionsModel[collectionsMenuListView.currentIndex].games.get(gamesListView.currentIndex).favorite = 
-//                    !themeData.collectionsModel[collectionsMenuListView.currentIndex].games.get(gamesListView.currentIndex).favorite;
                 gamesListModel.get(gamesListProxyModel.mapToSource(gamesListView.currentIndex)).favorite =
                     !gamesListModel.get(gamesListProxyModel.mapToSource(gamesListView.currentIndex)).favorite   
                 return;
@@ -155,8 +151,6 @@ FocusScope {
             currentIndex: {
                 Logger.info("GamesListMenu:collectionsMenuListView:onCompleted")
                 Logger.info("GamesListMenu:collectionsMenuListView:onCompleted:typeof:" + (typeof subMenuModel))
-                //const isCollection = (element) => element.name === themeSettings["menuIndex_" + menuName + "_subMenu"]
-                //let index = utils.findModelIndex(subMenuModel, isCollection)
                 Logger.info("GamesListMenu:collectionsMenuListView:onCompleted:count:" + (subMenuModel.length))
                 for(var i=0; i < subMenuModel.count; ++i) {
                     Logger.info("DEBUG:" + subMenuModel.get(i).name)
@@ -189,7 +183,6 @@ FocusScope {
                         var dateOffset = (24 * 60 * 60 * 1000) * themeSettings.lastPlayedDays;
                         var myDate = new Date();
                         myDate.setTime(myDate.getTime() - dateOffset);
-                        //Logger.info(lastPlayed);
                         return (modelData.lastPlayed > myDate ? true : false);
                     }
                 }
@@ -202,9 +195,6 @@ FocusScope {
 
             onModelReset: Logger.info("GamesListMenu:gamesListProxyModel:modelReset")
 
-//            Component.onCompleted: {
-//                gamesListView.model = gamesListProxyModel;
-//            }
         }
 
         ItemList {
@@ -227,10 +217,8 @@ FocusScope {
             Component.onCompleted: {
                 const isGame = (element) => element.title === themeSettings["menuIndex_gamesList"]
                 let index = utils.findModelIndex(gamesListView.model, isGame); 
-                //let index = utils.findModelIndex(gamesListModel, isGame); 
                 Logger.info("GameListMenu:gameListView:onCompleted:savedIndex:" + index);
                 gamesListView.moveIndex(index);
-                //gamesListView.positionViewAtIndex(index, ListView.SnapPosition);
             }
 
             Component.onDestruction: { 
@@ -273,19 +261,10 @@ FocusScope {
 
         Component {
             id: gamesMedia
-        GamesMedia01 {
-//            id: gamesMediaRoot
-//            anchors.fill: parent
+            GamesMedia01 {
 
-//            anchors.top: collectionsMenuListView.bottom
-//            anchors.topMargin: parent.height * 0.02
-//            anchors.right: parent.right
-//            anchors.left: gamesListView.right
-//            anchors.leftMargin: parent.width * 0.02
-//            anchors.bottom: parent.bottom
-
-            currentGame: gamesListView.model.get(gamesListView.currentIndex)
-        }
+                currentGame: gamesListView.model.get(gamesListView.currentIndex)
+            }
         }
 
     }
