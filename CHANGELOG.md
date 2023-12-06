@@ -11,14 +11,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Save index of gamelist on exit
 - Collection and Game list respect sortBy
+- Add setting to sort favorites on top of games list
+- Add setting to turn off games list counter
 
 ### Changed
 
 - Moved collection and game list to ListModel
+- Moved footer items around
 
 ### Fixed
 
 - Various code cleanup
+- Games list counter now respects the max width
 
 ## [0.1.2]
 

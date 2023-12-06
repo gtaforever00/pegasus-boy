@@ -20,10 +20,10 @@ Pegasus boy is a theme for Pegasus Frontend
 
 ### In Progress
 
-- [ ] Configure favorites to be on top of game lists  
 
 ### Done
 
 - [x] Restore index of collections and games  
 - [x] Ensure collections and games sortby is respected  
+- [x] Configure favorites to be on top of game lists  
 
