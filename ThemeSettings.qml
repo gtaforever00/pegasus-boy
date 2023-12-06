@@ -33,6 +33,7 @@ Item {
         "menuIndex_subMenu",
         "menuIndex_gamesList",
         "gamesFavoritesOnTop",
+        "gamesListCounter",
     ]
 
 
@@ -60,6 +61,8 @@ Item {
     property bool collectionAllGames: true
     property bool collectionShortNames: false
     property bool gamesFavoritesOnTop: false
+
+    property bool gamesListCounter: true
 
     property string language: "en"
 

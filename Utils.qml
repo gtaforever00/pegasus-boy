@@ -38,6 +38,14 @@ Item {
         return size;
     }
 
+    function getTextWidth(text, font, size) {
+        calculateFontSizeMetrics.font = font;
+        calculateFontSizeMetrics.font.pixelSize = size;
+        calculateFontSizeMetrics.text = text;
+
+        return calculateFontSizeMetrics.width;
+    }
+
     function generateRangeModel(min, max, step=1) {
         var model = [];
         // var count = (max - min) / step

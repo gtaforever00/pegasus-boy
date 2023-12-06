@@ -62,6 +62,13 @@ Item {
                     "type": "bool",
                     "default": "Disable",
                 },
+                {
+                    "name": "Show counter in footer",
+                    "id": "gamesListCounter",
+                    "description": "Display a counter for the game index in the footer of the games list",
+                    "type": "bool",
+                    "default": "Enable",
+                },
             ]
         },
         {
