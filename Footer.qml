@@ -26,7 +26,7 @@ Item {
                 leftMargin: parent.width * 0.01
             }
 
-            color: themeData.colorTheme[theme].secondary
+            color: themeData.colorTheme[theme].dark
 
             Component.onCompleted: {
                 if (themeSettings.gamesListCounter) {
@@ -59,7 +59,7 @@ Item {
             anchors.leftMargin: parent.width * 0.01
 
 
-            color: themeData.colorTheme[themeSettings.theme].secondary
+            color: themeData.colorTheme[themeSettings.theme].dark
 
            FooterTime {
                 id: footerMiddleClock
@@ -80,7 +80,7 @@ Item {
             anchors.right: footerMiddle.left
             anchors.rightMargin: parent.width * 0.01
 
-            color: themeData.colorTheme[themeSettings.theme].secondary
+            color: themeData.colorTheme[themeSettings.theme].dark
             clip: true
 
             RoundButton {
