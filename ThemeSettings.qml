@@ -49,7 +49,7 @@ Item {
 
 
     // User configurable settings
-    property int lastPlayedDays: 30
+    property string lastPlayedDays: "30"
 
     property int itemListRows: 9
     property int itemListWidth: 40

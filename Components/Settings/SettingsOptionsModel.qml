@@ -32,13 +32,13 @@ Item {
                     "type": "list",
                     "default": "30",
                     "options": [
-                        { "value": 7 },
-                        { "value": 14 },
-                        { "value": 30 },
-                        { "value": 60 },
-                        { "value": 90 },
-                        { "value": 180 },
-                        { "value": 365 },
+                        { "value": "7" },
+                        { "value": "14" },
+                        { "value": "30" },
+                        { "value": "60" },
+                        { "value": "90" },
+                        { "value": "180" },
+                        { "value": "365" },
                     ]
                 },
                 {
