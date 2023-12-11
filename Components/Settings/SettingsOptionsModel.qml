@@ -26,6 +26,19 @@ Item {
                 //     "options": ["en"],
                 // },
                 {
+                    "name": "Theme",
+                    "id": "theme",
+                    "description": "Color theme",
+                    "type": "list",
+                    "default": "Default",
+                    "options": [
+                        { "value": "Default" },
+                        { "value": "Amber" },
+                        { "value": "Blue" },
+                        { "value": "Purple" },
+                    ]
+                },
+                {
                     "name": "Last Played Day Range",
                     "id": "lastPlayedDays",
                     "description": "The max number of days to show games on the last played menu",
