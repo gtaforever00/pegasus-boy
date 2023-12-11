@@ -104,7 +104,7 @@ FocusScope {
                 event.accepted = true;
                 var count = gamesListView.model.count;
                 var index = gamesListView.currentIndex + 10;
-                if (index > count) {index = count - 1;}
+                if (index >= count) {index = count - 1;}
                 gamesListView.currentIndex = index;
                 return;
             }
