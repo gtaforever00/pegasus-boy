@@ -13,6 +13,7 @@ FocusScope {
     property alias gamesListModel: collectionsMenuRoot.gamesListModel
     property alias subMenuModel: collectionsMenuRoot.subMenuModel
     property alias subMenuEnable: collectionsMenuRoot.subMenuEnable
+
     property alias collectionsMenuListView: collectionsMenuRoot.collectionsMenuListView
     property alias subMenuIndex: collectionsMenuRoot.subMenuIndex
 
@@ -21,6 +22,7 @@ FocusScope {
     property alias filterOnlyFavorites: collectionsMenuRoot.filterOnlyFavorites
     property alias filterByDate: collectionsMenuRoot.filterByDate
     
+    property alias currentCollection: collectionsMenuRoot.currentCollection
 
     Item {
         id: collectionsMenuRoot
@@ -42,7 +44,8 @@ FocusScope {
         property bool filterByDate: false
 
         property var currentCollection: {
-            return subMenuModel.get(collectionsMenuListView.currentIndex)
+//            return subMenuModel.get(collectionsMenuListView.currentIndex)
+            return subMenuModel.get(collectionsMenuProxyModel.mapToSource(collectionsMenuListView.currentIndex))
         }
 
         property var currentGame: { 

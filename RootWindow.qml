@@ -76,7 +76,8 @@ Item {
             focus: contentLoader.focus
             subMenuEnable: true
             subMenuModel: themeData.collectionsListModel
-            gamesListModel: themeData.collectionsListModel.get(collectionsMenuListView.currentIndex).games
+            //gamesListModel: themeData.collectionsListModel.get(collectionsMenuListView.currentIndex).games
+            gamesListModel: currentCollection.games
             menuName: rootWindow.state
 
             Component.onCompleted: {
