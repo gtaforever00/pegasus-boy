@@ -23,6 +23,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Various code cleanup
 - Games list counter now respects the max width
+- Recent menu optimizations
+- Recent menu sorts by lastPlayed date
 
 ## [0.1.2]
 
