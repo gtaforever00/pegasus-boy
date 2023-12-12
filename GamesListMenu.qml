@@ -114,6 +114,7 @@ FocusScope {
             id: collectionsMenuProxyModel
 
             sourceModel: themeData.collectionsListModel
+            delayed: true
             sorters: [
                 RoleSorter {
                     roleName: "sortBy"
@@ -168,6 +169,7 @@ FocusScope {
         SortFilterProxyModel {
             id: gamesListProxyModel
             sourceModel: collectionsMenuRoot.gamesListModel
+            delayed: true
             filters: [
                 ValueFilter {
                     enabled: collectionsMenuRoot.filterOnlyFavorites
