@@ -33,6 +33,9 @@ Item {
                     if (Math.abs(subMenuTextRect.ListView.view.currentIndex - index) > 1) {
                         return 0.4;
                     }
+                    if (Math.abs(subMenuTextRect.ListView.view.currentIndex - index) === 1) {
+                        return 0.7;
+                    }
                     return 1;
                 }
 
