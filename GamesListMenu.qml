@@ -179,6 +179,11 @@ FocusScope {
                     roleName: "favorite"
                     value: true
                 },
+                RangeFilter {
+                    enabled: collectionsMenuRoot.filterByDate
+                    roleName: "playCount"
+                    minimumValue: 1
+                },
                 ExpressionFilter {
                     enabled: collectionsMenuRoot.filterByDate 
                     expression: {
@@ -189,8 +194,15 @@ FocusScope {
                     }
                 }
             ]
+            proxyRoles: [
+                ExpressionRole {
+                    name: "lastPlayedEpoch"
+                    expression: model.lastPlayed.getTime()
+                }
+            ]
             sorters: [
                 RoleSorter {
+                    enabled: !collectionsMenuRoot.filterByDate
                     roleName: "sortBy"
                 },
                 FilterSorter {
@@ -202,6 +214,11 @@ FocusScope {
                             value: true
                         }
                     ]
+                },
+                RoleSorter {
+                    enabled: collectionsMenuRoot.filterByDate
+                    roleName: "lastPlayedEpoch"
+                    sortOrder: Qt.DescendingOrder
                 }
             ]
 
@@ -233,6 +250,7 @@ FocusScope {
                 gamesListView.moveIndex(index);
             }
 
+            onCurrentIndexChanged: Logger.info("gamesListView:modelEpoch:" + model.get(currentIndex).lastPlayedEpoch)
             Component.onDestruction: { 
                 Logger.debug("GamesListMenu:gamesListView:currentGame:" + collectionsMenuRoot.currentGame.title) 
                 themeSettings["menuIndex_gamesList"] = collectionsMenuRoot.currentGame.title
