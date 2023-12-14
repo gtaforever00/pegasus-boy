@@ -11,13 +11,17 @@ Pegasus boy is a theme for Pegasus Frontend
 - [ ] Game playlist  
 - [ ] Retroachievements  
 - [ ] More shaders
+- [ ] Reported boot loop when using flatpak
 
 ### In Progress
 
-- [ ] Game list media choices  
+- [ ] Game list media layout choices 
+- [ ] Choice between screenshot and/or boxart
 - [ ] Video playback on game list media  
 - [ ] Change rating start to filled outline starts  
 - [ ] Hide media attributes if missing  
+- [ ] Fix slow loading due to finding index
+- [ ] Loading on slow devices causes submenu to not resize
 
 ### Done
 
