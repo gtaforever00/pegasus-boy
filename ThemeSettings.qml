@@ -31,7 +31,9 @@ Item {
         "shaderScanlinesImageSize",
         "menuIndex_main",
         "menuIndex_subMenu",
+        "menuIndex_subMenu_name",
         "menuIndex_gamesList",
+        "menuIndex_gamesList_name",
         "gamesFavoritesOnTop",
         "gamesListCounter",
     ]
@@ -44,9 +46,11 @@ Item {
     // Application state
 
     property int menuIndex_main: 0
-    property string menuIndex_subMenu: ""
-    property string menuIndex_gamesList: ""
-
+    property int menuIndex_subMenu: 0
+    property int menuIndex_gamesList: 0
+    
+    property string menuIndex_subMenu_name: ""
+    property string menuIndex_gamesList_name: ""
 
     // User configurable settings
     property string lastPlayedDays: "30"

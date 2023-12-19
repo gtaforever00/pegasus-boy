@@ -156,7 +156,7 @@ FocusScope {
                 Logger.info("GamesListMenu:collectionsMenuListView:onCompleted:count:" + (subMenuModel.length))
                 for(var i=0; i < subMenuModel.count; ++i) {
                     Logger.info("DEBUG:" + subMenuModel.get(i).name)
-                    if (subMenuModel.get(i).name === themeSettings["menuIndex_subMenu"]) {
+                    if (subMenuModel.get(i).name === themeSettings["menuIndex_subMenu_name"]) {
                         return i;
                     }
                 }
@@ -164,7 +164,8 @@ FocusScope {
             }
 
             Component.onDestruction: {
-                themeSettings["menuIndex_subMenu"] = collectionsMenuRoot.currentCollection.name; 
+                themeSettings["menuIndex_subMenu_name"] = collectionsMenuRoot.currentCollection.name; 
+                themeSettings["menuIndex_subMenu"] = collectionsMenuListView.currentIndex; 
             }
             
         }
@@ -226,6 +227,7 @@ FocusScope {
 
         }
 
+
         ItemList {
             id: gamesListView
 
@@ -244,8 +246,13 @@ FocusScope {
             delegate: gamesListDelegate.delegate
 
             Component.onCompleted: {
-                const isGame = (element) => element.title === themeSettings["menuIndex_gamesList"]
-                let index = utils.findModelIndex(gamesListView.model, isGame); 
+                //const isGame = (element) => element.title === themeSettings["menuIndex_gamesList_name"]
+                //let index = utils.findModelIndex(gamesListView.model, isGame); 
+                let index = 0;
+                Logger.info("GamesListMenu:gamesListView:onCompleted:modelAtIndex:" + gamesListView.model.get(themeSettings["menuIndex_gamesList"]).title)
+                if (gamesListView.model.get(themeSettings["menuIndex_gamesList"]).title === themeSettings["menuIndex_gamesList_name"]) {
+                    index = themeSettings["menuIndex_gamesList"]
+                }
                 Logger.info("GameListMenu:gameListView:onCompleted:savedIndex:" + index);
                 gamesListView.moveIndex(index);
             }
@@ -253,7 +260,8 @@ FocusScope {
             onCurrentIndexChanged: Logger.info("gamesListView:modelEpoch:" + model.get(currentIndex).lastPlayedEpoch)
             Component.onDestruction: { 
                 Logger.debug("GamesListMenu:gamesListView:currentGame:" + collectionsMenuRoot.currentGame.title) 
-                themeSettings["menuIndex_gamesList"] = collectionsMenuRoot.currentGame.title
+                themeSettings["menuIndex_gamesList_name"] = collectionsMenuRoot.currentGame.title
+                themeSettings["menuIndex_gamesList"] = gamesListView.currentIndex
             }
 
         }
