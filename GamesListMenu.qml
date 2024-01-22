@@ -29,8 +29,8 @@ FocusScope {
         width: parent.width
         height: parent.height
 
-        property alias collectionsMenuListView: collectionsMenuListView
-        property alias gamesListView: gamesListView
+        property alias collectionsMenuListView: collectionsMenuLoader.item
+        property alias gamesListView: gamesListLoader.item
         
         required property string menuName
 
@@ -45,22 +45,24 @@ FocusScope {
 
         property var currentCollection: {
 //            return subMenuModel.get(collectionsMenuListView.currentIndex)
-            return subMenuModel.get(collectionsMenuProxyModel.mapToSource(collectionsMenuListView.currentIndex))
+            return subMenuModel.get(subMenuModel.mapToSource(collectionsMenuLoader.item.currentIndex))
         }
 
         property var currentGame: { 
-            return gamesListModel.get(gamesListProxyModel.mapToSource(gamesListView.currentIndex))
+            return gamesListModel.get(gamesListModelLoader.item.mapToSource(gamesListLoader.item.currentIndex))
         }
 
         Keys.onPressed: {
             if (event.key == Qt.Key_Left && subMenuEnable) {
                 event.accepted = true;
-                if (collectionsMenuListView.listView.currentIndex - 1 >= 0) {
-                    collectionsMenuListView.listView.decrementCurrentIndex();
-                    gamesListView.currentIndex = 0;
+                if (collectionsMenuLoader.item.listView.currentIndex - 1 >= 0) {
+                    collectionsMenuLoader.item.listView.decrementCurrentIndex();
+                    gamesListLoader.item.currentIndex = 0;
                     // Hacky force refresh of game media
                     gamesMediaLoader.active = false
                     gamesMediaLoader.active = true
+                    gamesListLoader.active = false
+                    gamesListLoader.active = true
                     Logger.debug("GamesListMenu:keys:left:currentSubMenu:" + currentCollection.name)
                 }
                 return;
@@ -68,12 +70,14 @@ FocusScope {
             
             if (event.key == Qt.Key_Right && subMenuEnable) {
                 event.accepted = true;
-                if (collectionsMenuListView.listView.currentIndex + 1 < collectionsMenuListView.listView.count) {
-                    collectionsMenuListView.listView.incrementCurrentIndex();
-                    gamesListView.currentIndex = 0;
+                if (collectionsMenuLoader.item.listView.currentIndex + 1 < collectionsMenuLoader.item.listView.count) {
+                    collectionsMenuLoader.item.listView.incrementCurrentIndex();
+                    gamesListLoader.item.currentIndex = 0;
                     // Hacky force refresh of game media
                     gamesMediaLoader.active = false
                     gamesMediaLoader.active = true
+                    gamesListLoader.active = false
+                    gamesListLoader.active = true
                     Logger.debug("GamesListMenu:keys:right:currentSubMenu:" + currentCollection.name)
                 }
                 return;
@@ -82,8 +86,8 @@ FocusScope {
             // TODO: Move to on release key event
             if (api.keys.isFilters(event)) {
                 event.accepted = true;
-                gamesListModel.get(gamesListProxyModel.mapToSource(gamesListView.currentIndex)).favorite =
-                    !gamesListModel.get(gamesListProxyModel.mapToSource(gamesListView.currentIndex)).favorite   
+                gamesListModel.get(gamesListModelLoader.item.mapToSource(gamesListLoader.item.currentIndex)).favorite =
+                    !gamesListModel.get(gamesListModelLoader.item.mapToSource(gamesListLoader.item.currentIndex)).favorite   
                 return;
             }
 
@@ -96,145 +100,209 @@ FocusScope {
 
             if (api.keys.isPageUp(event)) {
                 event.accepted = true;
-                var count = gamesListView.model.count;
-                var index = gamesListView.currentIndex - 10;
+                var count = gamesListLoader.item.model.count;
+                var index = gamesListLoader.item.currentIndex - 10;
                 if (index < 0) {index = 0;}
-                gamesListView.currentIndex = index;
+                gamesListLoader.item.currentIndex = index;
                 return;
             }
 
             if (api.keys.isPageDown(event)) {
                 event.accepted = true;
-                var count = gamesListView.model.count;
-                var index = gamesListView.currentIndex + 10;
+                var count = gamesListLoader.item.model.count;
+                var index = gamesListLoader.item.currentIndex + 10;
                 if (index >= count) {index = count - 1;}
-                gamesListView.currentIndex = index;
+                gamesListLoader.item.currentIndex = index;
                 return;
             }
         }
 
-        SortFilterProxyModel {
-            id: collectionsMenuProxyModel
+        // SortFilterProxyModel {
+        //     id: collectionsMenuProxyModel
 
-            sourceModel: themeData.collectionsListModel
-            delayed: true
-            sorters: [
-                RoleSorter {
-                    roleName: "sortBy"
-                }
-            ]
+        //     sourceModel: themeData.collectionsListModel
+        //     delayed: true
+        //     sorters: [
+        //         RoleSorter {
+        //             roleName: "sortBy"
+        //         }
+        //     ]
 
-            Component.onCompleted: Logger.info("collections proxy model: " + sourceModel.count)
-        }
+        //     Component.onCompleted: Logger.info("collections proxy model: " + sourceModel.count)
+        // }
 
         // TODO Only load or save when subMenuEnable is active
-        SubMenu {
-            id: collectionsMenuListView
-
-            focus: false
-            visible: subMenuEnable ? true : false
-            enabled: subMenuEnable ? true : false
+        Loader {
+            id: collectionsMenuLoader
+            sourceComponent: collectionsMenuListView
+            active: subMenuEnable
 
             width: parent.width * (themeSettings.subMenuWidth / 100)
             height: parent.height * (themeSettings.subMenuHeight / 100)
-
-            columns: themeSettings.subMenuColumns
-
             anchors.left: parent.left
             anchors.leftMargin: parent.width * 0.06
 
-            model: collectionsMenuProxyModel
+            onStatusChanged: {
+                if (collectionsMenuLoader.status == Loader.Ready) {
+                    Logger.info("GamesListMenu:collectionsMenuLoader:LoaderReady")
 
-            textName: {
-                if (themeSettings.collectionShortNames) { return "shortName"};
-                return "name";
-            }
+                    Logger.info("GamesListMenu:collectionsMenuListView:onCompleted:index:" + item.model.get(themeSettings["menuIndex_subMenu"]).name)
 
-            currentIndex: {
-                Logger.info("GamesListMenu:collectionsMenuListView:onCompleted")
-                Logger.info("GamesListMenu:collectionsMenuListView:onCompleted:typeof:" + (typeof subMenuModel))
-                Logger.info("GamesListMenu:collectionsMenuListView:onCompleted:count:" + (subMenuModel.length))
-                for(var i=0; i < subMenuModel.count; ++i) {
-                    Logger.info("DEBUG:" + subMenuModel.get(i).name)
-                    if (subMenuModel.get(i).name === themeSettings["menuIndex_subMenu_name"]) {
-                        return i;
+                    let index = 0
+                    if (item.model.get(themeSettings["menuIndex_subMenu"]).name === themeSettings["menuIndex_subMenu_name"]) {
+                        index = themeSettings["menuIndex_subMenu"]
                     }
-                }
-                return 0;
-            }
+                    item.moveIndex(index)
 
-            Component.onDestruction: {
-                themeSettings["menuIndex_subMenu_name"] = collectionsMenuRoot.currentCollection.name; 
-                themeSettings["menuIndex_subMenu"] = collectionsMenuListView.currentIndex; 
+                    
+                    gamesListModelLoader.active = true
+                }
             }
-            
         }
 
-        SortFilterProxyModel {
+        Component {
+            id: collectionsMenuListView
+
+            SubMenu {
+                focus: false
+                // visible: subMenuEnable ? true : false
+                // enabled: subMenuEnable ? true : false
+                columns: themeSettings.subMenuColumns
+
+                model: subMenuModel
+
+                textName: {
+                    if (themeSettings.collectionShortNames) { return "shortName"};
+                    return "name";
+                }
+
+                // currentIndex: {
+                //     Logger.info("GamesListMenu:collectionsMenuListView:currentIndex")
+                //     Logger.info("GamesListMenu:collectionsMenuListView:currentIndex:typeof:" + (typeof subMenuModel))
+                //     Logger.info("GamesListMenu:collectionsMenuListView:currentIndex:count:" + (subMenuModel.count))
+                //     for(var i=0; i < subMenuModel.count; ++i) {
+                //         Logger.info("DEBUG:" + subMenuModel.get(i).name)
+                //         if (subMenuModel.get(i).name === themeSettings["menuIndex_subMenu_name"]) {
+                //             return i;
+                //         }
+                //     }
+                //     return 0;
+                // }
+
+                Component.onDestruction: {
+                    themeSettings["menuIndex_subMenu_name"] = collectionsMenuRoot.currentCollection.name; 
+                    themeSettings["menuIndex_subMenu"] = currentIndex; 
+                }
+
+                Component.onCompleted: {
+                    Logger.info("GamesListMenu:collectionsMenuListView:onCompleted")
+
+
+                    //gamesListModelLoader.active = true
+                    //collectionsMenuRoot.gamesListModel = currentCollection.games
+                }
+                
+            }
+        }
+
+        Loader {
+            id: gamesListModelLoader
+            sourceComponent: gamesListProxyModel
+            active: subMenuEnable ? false : true
+
+            onStatusChanged: {
+                if (gamesListModelLoader.status == Loader.Ready) {
+                    Logger.info("GamesListMenu:gamesListModelLoader:LoaderReady")
+                    gamesListLoader.active = true
+                }
+            }
+        }
+
+        Component {
             id: gamesListProxyModel
-            sourceModel: collectionsMenuRoot.gamesListModel
-            delayed: true
-            filters: [
-                ValueFilter {
-                    enabled: collectionsMenuRoot.filterOnlyFavorites
-                    roleName: "favorite"
-                    value: true
-                },
-                RangeFilter {
-                    enabled: collectionsMenuRoot.filterByDate
-                    roleName: "playCount"
-                    minimumValue: 1
-                },
-                ExpressionFilter {
-                    enabled: collectionsMenuRoot.filterByDate 
-                    expression: {
-                        var dateOffset = (24 * 60 * 60 * 1000) * themeSettings.lastPlayedDays;
-                        var myDate = new Date();
-                        myDate.setTime(myDate.getTime() - dateOffset);
-                        return (modelData.lastPlayed > myDate ? true : false);
+            SortFilterProxyModel {
+                sourceModel: {
+                    if (subMenuEnable) {
+                        Logger.info("GamesListMenu:gamesListProxyModel:sourceModel:subMenuEnable")
+                        return subMenuModel.get(subMenuModel.mapToSource(collectionsMenuLoader.item.currentIndex)).games
                     }
+                    return collectionsMenuRoot.gamesListModel
                 }
-            ]
-            proxyRoles: [
-                ExpressionRole {
-                    name: "lastPlayedEpoch"
-                    expression: model.lastPlayed.getTime()
-                }
-            ]
-            sorters: [
-                RoleSorter {
-                    enabled: !collectionsMenuRoot.filterByDate
-                    roleName: "sortBy"
-                },
-                FilterSorter {
-                    enabled: themeSettings.gamesFavoritesOnTop
-                    priority: 1000
-                    filters: [
-                        ValueFilter {
-                            roleName: "favorite"
-                            value: true
+                delayed: false
+                filters: [
+                    ValueFilter {
+                        enabled: collectionsMenuRoot.filterOnlyFavorites
+                        roleName: "favorite"
+                        value: true
+                    },
+                    RangeFilter {
+                        enabled: collectionsMenuRoot.filterByDate
+                        roleName: "playCount"
+                        minimumValue: 1
+                    },
+                    ExpressionFilter {
+                        enabled: collectionsMenuRoot.filterByDate 
+                        expression: {
+                            var dateOffset = (24 * 60 * 60 * 1000) * themeSettings.lastPlayedDays;
+                            var myDate = new Date();
+                            myDate.setTime(myDate.getTime() - dateOffset);
+                            return (modelData.lastPlayed > myDate ? true : false);
                         }
-                    ]
-                },
-                RoleSorter {
-                    enabled: collectionsMenuRoot.filterByDate
-                    roleName: "lastPlayedEpoch"
-                    sortOrder: Qt.DescendingOrder
+                    }
+                ]
+                proxyRoles: [
+                    ExpressionRole {
+                        name: "lastPlayedEpoch"
+                        expression: model.lastPlayed.getTime()
+                    }
+                ]
+                sorters: [
+                    RoleSorter {
+                        enabled: !collectionsMenuRoot.filterByDate
+                        roleName: "sortBy"
+                    },
+                    FilterSorter {
+                        enabled: themeSettings.gamesFavoritesOnTop
+                        priority: 1000
+                        filters: [
+                            ValueFilter {
+                                roleName: "favorite"
+                                value: true
+                            }
+                        ]
+                    },
+                    RoleSorter {
+                        enabled: collectionsMenuRoot.filterByDate
+                        roleName: "lastPlayedEpoch"
+                        sortOrder: Qt.DescendingOrder
+                    }
+                ]
+
+                onModelReset: {
+                    Logger.info("GamesListMenu:gamesListProxyModel:modelReset")
+                    // gamesListLoader.active = false
+                    // gamesListLoader.active = true
                 }
-            ]
 
-            onModelReset: Logger.info("GamesListMenu:gamesListProxyModel:modelReset")
+                onLayoutChanged: {
+                    Logger.info("GamesListMenu:gamesListProxyModel:layoutChanged")
+                }
 
+                Component.onCompleted: {
+                    Logger.info("GamesListMenu:gamesListProxyModel:onComplete")
+                }
+
+            }
         }
 
-
-        ItemList {
-            id: gamesListView
+        Loader {
+            id: gamesListLoader
 
             focus: true
-            rows: themeSettings.itemListRows
-
-            anchors.top: collectionsMenuListView.bottom
+            sourceComponent: gamesListView
+            active: false
+           
+            anchors.top: collectionsMenuLoader.bottom
             anchors.topMargin: parent.height * 0.02
             anchors.left: parent.left
             anchors.leftMargin: parent.width * 0.02
@@ -242,33 +310,43 @@ FocusScope {
 
             width: parent.width * (themeSettings.itemListWidth / 100)
 
-            model: gamesListProxyModel
-            delegate: gamesListDelegate.delegate
+        }
 
-            Component.onCompleted: {
-                //const isGame = (element) => element.title === themeSettings["menuIndex_gamesList_name"]
-                //let index = utils.findModelIndex(gamesListView.model, isGame); 
-                let index = 0;
-                Logger.info("GamesListMenu:gamesListView:onCompleted:modelAtIndex:" + gamesListView.model.get(themeSettings["menuIndex_gamesList"]).title)
-                if (gamesListView.model.get(themeSettings["menuIndex_gamesList"]).title === themeSettings["menuIndex_gamesList_name"]) {
-                    index = themeSettings["menuIndex_gamesList"]
+        Component {
+            id: gamesListView
+            ItemList {
+                focus: true
+
+                rows: themeSettings.itemListRows
+
+                model: gamesListModelLoader.item
+                delegate: gamesListDelegate.delegate
+
+                Component.onCompleted: {
+                    //const isGame = (element) => element.title === themeSettings["menuIndex_gamesList_name"]
+                    //let index = utils.findModelIndex(gamesListView.model, isGame); 
+                    let index = 0;
+                    Logger.info("GamesListMenu:gamesListView:onCompleted:modelAtIndex:" + model.get(themeSettings["menuIndex_gamesList"]).title)
+                    if (model.get(themeSettings["menuIndex_gamesList"]).title === themeSettings["menuIndex_gamesList_name"]) {
+                        index = themeSettings["menuIndex_gamesList"]
+                    }
+                    Logger.info("GameListMenu:gameListView:onCompleted:savedIndex:" + index);
+                    moveIndex(index);
                 }
-                Logger.info("GameListMenu:gameListView:onCompleted:savedIndex:" + index);
-                gamesListView.moveIndex(index);
-            }
 
-            onCurrentIndexChanged: Logger.info("gamesListView:modelEpoch:" + model.get(currentIndex).lastPlayedEpoch)
-            Component.onDestruction: { 
-                Logger.debug("GamesListMenu:gamesListView:currentGame:" + collectionsMenuRoot.currentGame.title) 
-                themeSettings["menuIndex_gamesList_name"] = collectionsMenuRoot.currentGame.title
-                themeSettings["menuIndex_gamesList"] = gamesListView.currentIndex
-            }
+                onCurrentIndexChanged: Logger.info("gamesListView:modelEpoch:" + model.get(currentIndex).lastPlayedEpoch)
+                Component.onDestruction: { 
+                    Logger.debug("GamesListMenu:gamesListView:currentGame:" + collectionsMenuRoot.currentGame.title) 
+                    themeSettings["menuIndex_gamesList_name"] = collectionsMenuRoot.currentGame.title
+                    themeSettings["menuIndex_gamesList"] = currentIndex
+                }
 
+            }
         }
 
         GamesListDelegate {
             id: gamesListDelegate
-            rows: gamesListView.rows
+            rows: gamesListLoader.item.rows
         }
 
         Footer {
@@ -279,7 +357,7 @@ FocusScope {
             anchors.bottom: parent.bottom
             focus: false
 
-            footerLeftText: (gamesListView.currentIndex + 1) + "/" + gamesListProxyModel.count 
+            footerLeftText: (gamesListLoader.item.currentIndex + 1) + "/" + gamesListModelLoader.item.count 
 
         }
 
@@ -287,12 +365,13 @@ FocusScope {
             id: gamesMediaLoader
             sourceComponent: gamesMedia
             asynchronous: true
-            visible: gamesListView.model.count > 0
+            visible: gamesListLoader.item.model.count > 0
+            active: gamesListLoader.status == Loader.Ready
             
-            anchors.top: collectionsMenuListView.bottom
+            anchors.top: collectionsMenuLoader.bottom
             anchors.topMargin: parent.height * 0.02
             anchors.right: parent.right
-            anchors.left: gamesListView.right
+            anchors.left: gamesListLoader.right
             anchors.leftMargin: parent.width * 0.02
             anchors.bottom: parent.bottom
         }
@@ -301,8 +380,13 @@ FocusScope {
             id: gamesMedia
             GamesMedia01 {
 
-                currentGame: gamesListView.model.get(gamesListView.currentIndex)
+                currentGame: gamesListLoader.item.model.get(gamesListLoader.item.currentIndex)
             }
+        }
+
+
+        Component.onCompleted: {
+            Logger.info("GamesListMenu:collectionsMenuRoot:onComplete")
         }
 
     }

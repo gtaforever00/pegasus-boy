@@ -20,15 +20,54 @@ FocusScope {
         { name: "settings", title: "Settings"}
     ]
 
+    Loader {
+        id: themeSettingsLoader
+        sourceComponent: themeSettingsComponent
 
-    ThemeSettings {
-        id: themeSettings
-    }
-    property alias theme: themeSettings.theme
+        onStatusChanged: {
+            if (status == Loader.Ready) {
+                //root.theme = item.theme
+                themeDataLoader.active = true
+            }
+        }
 
-    ThemeData {
-        id: themeData
     }
+
+    Component {
+        id: themeSettingsComponent
+        ThemeSettings {
+        }
+    }
+    property alias themeSettings: themeSettingsLoader.item
+
+    // TODO: Fix all of the instances of this to use themeSettings
+    property string theme: themeSettingsLoader.item.theme
+
+    // Binding {
+    //     target: theme
+    //     when: themeSettingsLoader.status == Loader.Ready
+    //     value: themeSettingsLoader.item.theme
+    // }
+
+    Loader {
+        id: themeDataLoader
+        sourceComponent: themeDataComponent
+        active: false
+
+        onStatusChanged: {
+
+            if (status == Loader.Ready) {
+                shaderLoader.active = true
+            }
+        }
+    }
+
+    Component {
+        id: themeDataComponent
+        ThemeData {
+        }
+    }
+    property alias themeData: themeDataLoader.item
 
     Utils {
         id: utils
@@ -39,6 +78,7 @@ FocusScope {
         width: parent.width
         height: parent.height
         focus: true
+        active: false
 
         sourceComponent: shaderComponent
         visible: status == Loader.Ready

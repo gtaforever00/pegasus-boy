@@ -1,4 +1,6 @@
 import QtQuick 2.15
+import SortFilterProxyModel 0.2
+
 import "Logger.js" as Logger
 
 Item {
@@ -72,17 +74,68 @@ Item {
     Component {
         id: collectionsMenu
 
-        GamesListMenu {
-            focus: contentLoader.focus
-            subMenuEnable: true
-            subMenuModel: themeData.collectionsListModel
-            //gamesListModel: themeData.collectionsListModel.get(collectionsMenuListView.currentIndex).games
-            gamesListModel: currentCollection.games
-            menuName: rootWindow.state
+        Item {
 
-            Component.onCompleted: {
-                Logger.info("RootWindow:collectionsMenu:onCompleted");
+            anchors.fill: parent.fill
+
+            Loader {
+                id: collectionsMenuModelLoader
+                sourceComponent: collectionsMenuProxyModel
+                active: true
+
+                onStatusChanged: {
+                    if (collectionsMenuModelLoader.status == Loader.Ready) {
+                        Logger.info("RootWindow:collectionsMenuModelLoader:LoaderReady")
+                        gamesListMenuLoader.active = true
+                    }
+                }
             }
+
+            Component {
+                id: collectionsMenuProxyModel
+
+                SortFilterProxyModel {
+
+                    sourceModel: themeData.collectionsListModel
+                    delayed: false
+                    sorters: [
+                        RoleSorter {
+                            roleName: "sortBy"
+                        }
+                    ]
+
+                    Component.onCompleted: {
+                        Logger.info("collections proxy model: " + sourceModel.count)
+                        //gamesListMenuLoader.active = true
+                    }
+                }
+            }
+
+            Loader {
+                id: gamesListMenuLoader
+                anchors.fill: parent
+                focus: contentLoader.focus
+                active: false
+                sourceComponent: gamesListMenu
+            }
+
+            Component {
+                id:gamesListMenu
+
+                GamesListMenu {
+                    focus: gamesListMenuLoader.focus
+                    subMenuEnable: true
+                    subMenuModel: collectionsMenuModelLoader.item
+                    //gamesListModel: themeData.collectionsListModel.get(collectionsMenuListView.currentIndex).games
+                    gamesListModel: currentCollection.games
+                    menuName: rootWindow.state
+
+                    Component.onCompleted: {
+                        Logger.info("RootWindow:collectionsMenu:onCompleted");
+                    }
+                }
+            }
+
         }
     }
 
