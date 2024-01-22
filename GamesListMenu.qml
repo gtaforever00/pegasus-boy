@@ -44,8 +44,8 @@ FocusScope {
         property bool filterByDate: false
 
         property var currentCollection: {
-//            return subMenuModel.get(collectionsMenuListView.currentIndex)
-            return subMenuModel.get(subMenuModel.mapToSource(collectionsMenuLoader.item.currentIndex))
+            return subMenuModel.get(collectionsMenuLoader.item.currentIndex)
+//            return subMenuModel.get(subMenuModel.mapToSource(collectionsMenuLoader.item.currentIndex))
         }
 
         property var currentGame: { 
@@ -221,13 +221,14 @@ FocusScope {
         Component {
             id: gamesListProxyModel
             SortFilterProxyModel {
-                sourceModel: {
-                    if (subMenuEnable) {
-                        Logger.info("GamesListMenu:gamesListProxyModel:sourceModel:subMenuEnable")
-                        return subMenuModel.get(subMenuModel.mapToSource(collectionsMenuLoader.item.currentIndex)).games
-                    }
-                    return collectionsMenuRoot.gamesListModel
-                }
+                sourceModel: gamesListModel
+                // sourceModel: {
+                //     if (subMenuEnable) {
+                //         Logger.info("GamesListMenu:gamesListProxyModel:sourceModel:subMenuEnable")
+                //         return subMenuModel.get(subMenuModel.mapToSource(collectionsMenuLoader.item.currentIndex)).games
+                //     }
+                //     return collectionsMenuRoot.gamesListModel
+                // }
                 delayed: false
                 filters: [
                     ValueFilter {
