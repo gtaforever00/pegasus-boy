@@ -25,7 +25,7 @@ Item {
 
                 font.family: "HackRegular"
                 font.pixelSize: subMenuListView.fontSize
-                font.bold: false
+                font.bold: subMenuTextRect.ListView.isCurrentItem ? true : false
                 color: subMenuTextRect.ListView.isCurrentItem ? themeData.colorTheme[theme].primary : themeData.colorTheme[theme].secondary
                 //color: themeData.colorTheme[theme].primary
                 font.capitalization: Font.AllUppercase
