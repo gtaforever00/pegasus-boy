@@ -46,6 +46,7 @@ FocusScope {
                 // Keep max columns to 4 for top menu
                 subMenuListView.columns = col;
             }
+            //subMenuListView.columns = col
 
             Logger.debug("SubMenu:columnsChanged:" + columns);
 
@@ -101,6 +102,7 @@ FocusScope {
             //     subMenuListView.height, 
             //     model.toVarArray().map((x) => x.name)
             // )
+            Logger.info("SubMenu:subMenuListView:onCompleted:setColumns:" + themeSettings.subMenuColumns)
             columns = themeSettings.subMenuColumns;
             resizeFont()
             // The position for the middle elements caused it to be at the beginning

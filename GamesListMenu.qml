@@ -131,7 +131,6 @@ FocusScope {
         //     Component.onCompleted: Logger.info("collections proxy model: " + sourceModel.count)
         // }
 
-        // TODO Only load or save when subMenuEnable is active
         Loader {
             id: collectionsMenuLoader
             sourceComponent: collectionsMenuListView
@@ -165,9 +164,6 @@ FocusScope {
 
             SubMenu {
                 focus: false
-                // visible: subMenuEnable ? true : false
-                // enabled: subMenuEnable ? true : false
-                columns: themeSettings.subMenuColumns
 
                 model: subMenuModel
 
@@ -176,19 +172,6 @@ FocusScope {
                     return "name";
                 }
 
-                // currentIndex: {
-                //     Logger.info("GamesListMenu:collectionsMenuListView:currentIndex")
-                //     Logger.info("GamesListMenu:collectionsMenuListView:currentIndex:typeof:" + (typeof subMenuModel))
-                //     Logger.info("GamesListMenu:collectionsMenuListView:currentIndex:count:" + (subMenuModel.count))
-                //     for(var i=0; i < subMenuModel.count; ++i) {
-                //         Logger.info("DEBUG:" + subMenuModel.get(i).name)
-                //         if (subMenuModel.get(i).name === themeSettings["menuIndex_subMenu_name"]) {
-                //             return i;
-                //         }
-                //     }
-                //     return 0;
-                // }
-
                 Component.onDestruction: {
                     themeSettings["menuIndex_subMenu_name"] = collectionsMenuRoot.currentCollection.name; 
                     themeSettings["menuIndex_subMenu"] = currentIndex; 
@@ -196,10 +179,6 @@ FocusScope {
 
                 Component.onCompleted: {
                     Logger.info("GamesListMenu:collectionsMenuListView:onCompleted")
-
-
-                    //gamesListModelLoader.active = true
-                    //collectionsMenuRoot.gamesListModel = currentCollection.games
                 }
                 
             }
@@ -222,13 +201,7 @@ FocusScope {
             id: gamesListProxyModel
             SortFilterProxyModel {
                 sourceModel: gamesListModel
-                // sourceModel: {
-                //     if (subMenuEnable) {
-                //         Logger.info("GamesListMenu:gamesListProxyModel:sourceModel:subMenuEnable")
-                //         return subMenuModel.get(subMenuModel.mapToSource(collectionsMenuLoader.item.currentIndex)).games
-                //     }
-                //     return collectionsMenuRoot.gamesListModel
-                // }
+
                 delayed: false
                 filters: [
                     ValueFilter {
@@ -281,8 +254,6 @@ FocusScope {
 
                 onModelReset: {
                     Logger.info("GamesListMenu:gamesListProxyModel:modelReset")
-                    // gamesListLoader.active = false
-                    // gamesListLoader.active = true
                 }
 
                 onLayoutChanged: {
