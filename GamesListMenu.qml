@@ -53,6 +53,11 @@ FocusScope {
         }
 
         Keys.onPressed: {
+            // A weird issue where when you launch a game it spams auto repeat when Pegasus loads back
+            if (event.isAutoRepeat) {
+                return
+            }
+
             if (event.key == Qt.Key_Left && subMenuEnable) {
                 event.accepted = true;
                 if (collectionsMenuLoader.item.listView.currentIndex - 1 >= 0) {
