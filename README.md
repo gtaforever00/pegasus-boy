@@ -26,6 +26,14 @@ It is recommended to have at least the following metadata/assets for the full ex
 - Last Played Menu
 - Shaders providing a CRT look
 
+## Screenshots
+
+![Games Screen (Green)](./assets/screenshots/readme-1.png)
+![Favorites Screen (Amber)](./assets/screenshots/readme-2.png)
+![Recent Screen (Blue)](./assets/screenshots/readme-3.png)
+![Settings Screen (Purple)](./assets/screenshots/readme-4.png)
+
+
 ## License
 
 Distributed under the GNU General Public License v3.0+. See [COPYING](COPYING) for more information.
