@@ -67,6 +67,7 @@ Item {
                     font.pixelSize: height * 0.6
                     color: themeData.colorTheme[theme].primary
                     text: "Genre"
+                    visible: currentGame.genre === "" ? false : true
                 }
 
                 Text {
@@ -103,6 +104,7 @@ Item {
                     font.pixelSize: height * 0.6
                     color: themeData.colorTheme[theme].primary
                     text: "Devoloper"
+                    visible: currentGame.developer === "" ? false : true
                 }
 
                 Text {
@@ -141,6 +143,7 @@ Item {
                     font.pixelSize: height * 0.6
                     color: themeData.colorTheme[theme].primary
                     text: "Rating"
+                    visible: currentGame.rating === 0 ? false : true
                 }
 
 
@@ -214,6 +217,7 @@ Item {
                     font.pixelSize: height * 0.6
                     color: themeData.colorTheme[theme].primary
                     text: "Released"
+                    visible: currentGame.releaseYear === 0 ? false : true
                 }
 
                 Text {
