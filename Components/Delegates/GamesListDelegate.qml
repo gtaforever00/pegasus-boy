@@ -63,7 +63,8 @@ Item {
                 // fontSizeMode: Text.HorizontalFit
                 // minimumPixelSize: 8
                 // font.pixelSize: 72
-                font.pixelSize: parent.height * 0.4
+                font.pixelSize: parent.height * (gamesListRect.ListView.isCurrentItem ? 0.42 : 0.4)
+                font.bold: gamesListRect.ListView.isCurrentItem ? true : false
 
                 elide: Text.ElideRight
                 color: gamesListRect.ListView.isCurrentItem ? themeData.colorTheme[theme].background : themeData.colorTheme[theme].primary
