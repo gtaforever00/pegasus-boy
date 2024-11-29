@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add setting to sort favorites on top of games list
 - Add setting to turn off games list counter
 - Added various color schemes
+- Make active item more defined
 
 ### Changed
 

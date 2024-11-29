@@ -11,7 +11,7 @@ Pegasus boy is a theme for Pegasus Frontend
 - [ ] Game playlist  
 - [ ] Retroachievements  
 - [ ] More shaders  
-- [ ] Reported boot loop when using flatpak  
+- [x] Reported boot loop when using flatpak  
 
 ### In Progress
 
